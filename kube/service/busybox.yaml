@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox-deployment
+spec:
+  selector:
+    matchLabels:
+      app: busybox
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: busybox
+    spec:
+      tolerations:
+      - key: "node-role.kubernetes.io/master"
+        operator: "Exists"
+        effect: "NoSchedule"
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["sleep"]
+        args: ["10000"]
